@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tadjou Dine Da Gloria · Digital &amp; Data Executive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C2748;
+  --bg-soft:#123467;
+  --panel:#132E58;
+  --panel-2:#0F2A50;
+  --ink:#EAF2FB;
+  --ink-muted:#9FB9DA;
+  --ink-dim:#6D89AC;
+  --gold:#E8B058;
+  --gold-soft:#C98A2E;
+  --teal:#5FD1C0;
+  --line:rgba(234,242,251,0.14);
+  --line-strong:rgba(234,242,251,0.28);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'IBM Plex Mono',monospace;}
+.display{font-family:'Space Grotesk',sans-serif;}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; margin:0; font-weight:600; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;}
+.lang-en{display:none;}
+body.lang-en .lang-en{display:initial;}
+body.lang-en .lang-fr{display:none;}
+img,svg{display:block;max-width:100%;}
+
+.chart-bg{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(234,242,251,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234,242,251,0.045) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 40%, transparent 90%);
+}
+
+.wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(12,39,72,0.9);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1080px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:15px; letter-spacing:0.02em;}
+.brand-mark{width:22px; height:22px; flex:none;}
+.topnav{display:flex; align-items:center; gap:26px;}
+.topnav a{font-size:13px; color:var(--ink-muted); text-decoration:none; letter-spacing:0.03em; transition:color .15s;}
+.topnav a:hover{color:var(--gold);}
+.lang-toggle{
+  display:flex; align-items:center; gap:0; border:1px solid var(--line-strong); border-radius:20px; overflow:hidden;
+  font-family:'IBM Plex Mono'; font-size:12px; cursor:pointer; user-select:none; background:var(--panel);
+}
+.lang-toggle span{padding:6px 12px; transition:all .15s;}
+.lang-toggle .fr-btn{background:var(--gold); color:#fff;}
+.lang-toggle.en .fr-btn{background:transparent; color:var(--ink-muted);}
+.lang-toggle.en .en-btn{background:var(--gold); color:#fff;}
+.lang-toggle .en-btn{color:var(--ink-muted);}
+@media (max-width:760px){ .topnav a:not(.lang-toggle-wrap){display:none;} }
+
+.hero{padding:64px 0 40px;}
+.manifest{
+  border:1px solid var(--line-strong);
+  background:linear-gradient(180deg, rgba(14,124,134,0.05), transparent 40%), var(--panel);
+  position:relative;
+  overflow:hidden;
+}
+.manifest::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:repeating-linear-gradient(115deg, transparent, transparent 78px, rgba(234,242,251,0.025) 78px, rgba(234,242,251,0.025) 79px);
+}
+.manifest-strip{
+  display:flex; flex-wrap:wrap; gap:0;
+  border-bottom:1px solid var(--line);
+  font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.03em; color:var(--ink-dim);
+  background:var(--panel-2);
+}
+.manifest-cell{padding:10px 18px; border-right:1px solid var(--line); flex:1; min-width:140px;}
+.manifest-cell b{display:block; color:var(--teal); font-size:9px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px;}
+.manifest-cell em{font-style:normal; color:var(--ink-muted);}
+.manifest-body{padding:44px 40px 40px; position:relative; display:flex; gap:36px; align-items:flex-start;}
+.manifest-main{flex:1; min-width:0;}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'IBM Plex Mono'; font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:18px;
+}
+.eyebrow-num{border-right:1px solid var(--gold-soft); padding-right:10px; opacity:0.85;}
+.section-head .eyebrow{color:var(--teal);}
+.section-head .eyebrow-num{border-color:var(--teal);}
+.hero h1{font-size:clamp(32px,5vw,54px); line-height:1.05; max-width:760px;}
+.hero .role{
+  margin-top:16px; font-size:clamp(16px,2vw,20px); color:var(--ink-muted); max-width:640px; font-weight:400;
+}
+.hero-meta{display:flex; flex-wrap:wrap; gap:10px 28px; margin-top:28px; font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--ink-dim);}
+.hero-meta span b{color:var(--ink-muted); font-weight:500;}
+.stamp{
+  border:1.5px solid var(--gold); color:var(--gold);
+  padding:10px 16px; transform:rotate(3deg);
+  font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.08em; text-align:center;
+  border-radius:3px; opacity:0.95; display:inline-block; margin-bottom:22px;
+}
+.stamp small{display:block; font-size:8.5px; letter-spacing:0.15em; opacity:0.85; margin-bottom:2px;}
+
+.portrait-frame{
+  flex:none; width:150px;
+}
+.portrait-box{
+  width:150px; height:180px; border:2px solid var(--line-strong); background:var(--panel-2);
+  position:relative; overflow:hidden; border-radius:2px;
+}
+.portrait-box::before,.portrait-box::after,
+.portrait-box .cornerBR,.portrait-box .cornerBL{
+  content:""; position:absolute; width:14px; height:14px; border-color:var(--teal); z-index:2;
+}
+.portrait-box::before{top:6px; left:6px; border-top:2px solid var(--teal); border-left:2px solid var(--teal);}
+.portrait-box::after{top:6px; right:6px; border-top:2px solid var(--teal); border-right:2px solid var(--teal);}
+.portrait-box .cornerBL{bottom:6px; left:6px; border-bottom:2px solid var(--teal); border-left:2px solid var(--teal);}
+.portrait-box .cornerBR{bottom:6px; right:6px; border-bottom:2px solid var(--teal); border-right:2px solid var(--teal);}
+.portrait-box img{width:100%; height:100%; object-fit:cover; position:relative; z-index:1;}
+.portrait-placeholder{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; color:var(--ink-dim); text-align:center; padding:12px;
+}
+.portrait-placeholder svg{width:36px; height:36px; opacity:0.55;}
+.portrait-placeholder span{font-family:'IBM Plex Mono'; font-size:9.5px; letter-spacing:0.04em; line-height:1.4;}
+.portrait-box.has-photo .portrait-placeholder{display:none;}
+.portrait-label{margin-top:8px; font-family:'IBM Plex Mono'; font-size:9.5px; color:var(--ink-dim); text-align:center; letter-spacing:0.06em;}
+@media (max-width:700px){ .manifest-body{flex-direction:column-reverse; padding:32px 22px;} .portrait-frame{width:120px;} .portrait-box{width:120px; height:145px;} }
+
+.cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:34px;}
+.btn{
+  font-family:'IBM Plex Mono'; font-size:12.5px; letter-spacing:0.03em; text-decoration:none;
+  padding:12px 22px; border-radius:2px; display:inline-flex; align-items:center; gap:8px;
+  transition:transform .15s, background .15s, color .15s;
+}
+.btn-primary{background:var(--gold); color:#fff; font-weight:600;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-ghost{border:1px solid var(--line-strong); color:var(--ink); background:var(--panel);}
+.btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+section{padding:80px 0;}
+.section-head{margin-bottom:44px; max-width:680px;}
+.section-head h2{font-size:clamp(24px,3.4vw,34px);}
+.section-head p{margin-top:14px; color:var(--ink-muted); font-size:15.5px;}
+.divider{height:1px; background:var(--line); border:none; margin:0;}
+
+.profile-grid{display:grid; grid-template-columns:1fr 260px; gap:48px;}
+.profile-text p{color:var(--ink-muted); font-size:16px; margin-bottom:16px;}
+.profile-text strong{color:var(--ink); font-weight:600;}
+.side-card{border:1px solid var(--line); background:var(--panel); padding:22px;}
+.side-card h4{font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); font-family:'IBM Plex Mono'; margin-bottom:14px;}
+.side-fact{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--line); font-size:13.5px; gap:10px;}
+.side-fact:last-child{border-bottom:none;}
+.side-fact span:first-child{color:var(--ink-dim); font-family:'IBM Plex Mono'; font-size:11.5px;}
+.side-fact span:last-child{text-align:right;}
+@media (max-width:820px){ .profile-grid{grid-template-columns:1fr;} }
+
+.console{
+  border:1px solid var(--line-strong); background:var(--panel);
+  padding:32px 32px 28px;
+}
+.console-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; flex-wrap:wrap; gap:12px;}
+.console-top .mono{font-size:11px; color:var(--ink-dim); letter-spacing:0.05em;}
+.dot-row span{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px;}
+.dot-row .d1{background:#d9534f;} .dot-row .d2{background:#d9a441;} .dot-row .d3{background:#3fae7e;}
+.gauge-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px 40px;}
+@media (max-width:700px){.gauge-grid{grid-template-columns:1fr;}}
+.gauge-label{display:flex; justify-content:space-between; font-family:'IBM Plex Mono'; font-size:12.5px; margin-bottom:8px;}
+.gauge-label b{color:var(--ink); font-weight:500;}
+.gauge-label span{color:var(--gold);}
+.gauge-track{height:6px; background:var(--bg-soft); border:1px solid var(--line); position:relative; overflow:hidden;}
+.gauge-fill{height:100%; background:linear-gradient(90deg, var(--teal), var(--gold-soft));}
+.console-note{margin-top:26px; padding-top:20px; border-top:1px solid var(--line); color:var(--ink-muted); font-size:14px;}
+.tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;}
+.tag{font-family:'IBM Plex Mono'; font-size:11px; padding:5px 10px; border:1px solid var(--line-strong); color:var(--ink-muted); border-radius:2px;}
+
+.route{position:relative; padding-left:2px;}
+.route-line{position:absolute; left:9px; top:6px; bottom:6px; width:1px; background:repeating-linear-gradient(180deg, var(--line-strong) 0 6px, transparent 6px 12px);}
+.stop{position:relative; padding:0 0 46px 42px;}
+.stop:last-child{padding-bottom:0;}
+.stop-dot{position:absolute; left:0; top:2px; width:19px; height:19px; border:1.5px solid var(--gold); border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center;}
+.stop-dot::after{content:""; width:6px; height:6px; border-radius:50%; background:var(--gold);}
+.stop.current .stop-dot{border-color:var(--teal);}
+.stop.current .stop-dot::after{background:var(--teal);}
+.stop.side .stop-dot{border-color:var(--ink-dim); border-style:dashed;}
+.stop.side .stop-dot::after{background:var(--ink-dim);}
+.stop-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 16px; margin-bottom:8px;}
+.stop-titles{display:flex; flex-direction:column; gap:2px;}
+.stop-head .role-title{font-family:'Space Grotesk'; font-weight:600; font-size:18px;}
+.stop-head .role-sub{color:var(--ink-muted); font-size:13.5px;}
+.stop-head .co{color:var(--teal); font-size:14px; font-family:'IBM Plex Mono'; margin-top:4px;}
+.stop-head .dates{margin-left:auto; font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--ink-dim); border:1px solid var(--line); padding:3px 9px; border-radius:2px; white-space:nowrap; background:var(--panel);}
+.stop ul{margin:0; padding-left:18px; color:var(--ink-muted); font-size:14.5px;}
+.stop li{margin-bottom:6px;}
+.bl-code{font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--ink-dim); margin-top:8px; letter-spacing:0.04em;}
+
+.container-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+@media (max-width:820px){ .container-grid{grid-template-columns:1fr;} }
+.crate{
+  border:1px solid var(--line-strong); background:var(--panel);
+  padding:26px 24px; position:relative;
+}
+.crate::before{
+  content:attr(data-code);
+  position:absolute; top:-1px; right:-1px;
+  font-family:'IBM Plex Mono'; font-size:9.5px; color:#fff;
+  background:var(--gold); padding:3px 8px; letter-spacing:0.05em;
+}
+.crate h3{font-size:16.5px; margin-bottom:16px; padding-right:70px;}
+.crate ul{list-style:none; margin:0; padding:0;}
+.crate li{
+  font-size:14px; color:var(--ink-muted); padding:8px 0; border-top:1px solid var(--line);
+  display:flex; gap:9px; align-items:flex-start;
+}
+.crate li:first-child{border-top:none;}
+.crate li::before{content:"›"; color:var(--teal); flex:none; font-weight:600;}
+
+.project-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+@media (max-width:820px){ .project-grid{grid-template-columns:1fr;} }
+.project-card{
+  border:1px solid var(--line-strong); background:var(--panel); padding:26px; display:flex; flex-direction:column; gap:12px;
+}
+.project-card.featured{border-color:var(--teal); background:linear-gradient(160deg, rgba(14,124,134,0.06), transparent 60%), var(--panel);}
+.project-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+.project-top h3{font-size:17px;}
+.project-tag{font-family:'IBM Plex Mono'; font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal); border:1px solid var(--teal); padding:3px 8px; white-space:nowrap;}
+.project-card p{color:var(--ink-muted); font-size:14px;}
+.project-link{
+  margin-top:auto; padding-top:10px; font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--gold);
+  text-decoration:none; display:inline-flex; align-items:center; gap:6px; width:fit-content;
+}
+.project-link:hover{text-decoration:underline;}
+
+.folio{
+  border:1px solid var(--gold-soft); background:linear-gradient(160deg, rgba(168,105,15,0.06), transparent 60%), var(--panel);
+  padding:38px 40px; position:relative;
+}
+.folio-tag{
+  display:inline-block; font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:0.1em;
+  color:var(--gold); border:1px solid var(--gold-soft); padding:4px 10px; margin-bottom:18px; text-transform:uppercase;
+}
+.folio h3{font-size:22px; max-width:640px; margin-bottom:14px;}
+.folio p{color:var(--ink-muted); font-size:15px; max-width:680px; margin-bottom:10px;}
+.folio-facts{display:flex; flex-wrap:wrap; gap:28px; margin-top:24px; padding-top:22px; border-top:1px solid var(--line);}
+.folio-fact b{display:block; font-family:'IBM Plex Mono'; font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px;}
+.folio-fact span{font-size:14.5px; color:var(--ink);}
+
+.edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:44px;}
+@media (max-width:820px){.edu-grid{grid-template-columns:1fr;}}
+.edu-item{padding:14px 0; border-bottom:1px solid var(--line);}
+.edu-item:last-child{border-bottom:none;}
+.edu-item .deg{font-weight:600; font-size:14.5px;}
+.edu-item .sch{color:var(--ink-muted); font-size:13.5px; margin-top:3px;}
+.edu-item .yr{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--ink-dim); margin-top:3px;}
+.col-label{font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:16px; display:block;}
+
+footer{padding:70px 0 50px; border-top:1px solid var(--line);}
+.contact-grid{display:flex; flex-wrap:wrap; justify-content:space-between; gap:36px; align-items:flex-end;}
+.contact-links{display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono'; font-size:14px;}
+.contact-links a{text-decoration:none; color:var(--ink-muted); transition:color .15s;}
+.contact-links a:hover{color:var(--gold);}
+.foot-note{color:var(--ink-dim); font-size:12.5px; margin-top:34px; font-family:'IBM Plex Mono';}
+</style>
+</head>
+<body>
+<div class="chart-bg"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none"><path d="M3 17h18M4 17l1.5-7h13L20 17M8 10V6h8v4" stroke="#E8B058" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>T. DINE DA GLORIA</span>
+    </div>
+    <div class="topnav">
+      <a href="#profil"><span class="lang-fr">Profil</span><span class="lang-en">Profile</span></a>
+      <a href="#data"><span class="lang-fr">Data &amp; BI</span><span class="lang-en">Data &amp; BI</span></a>
+      <a href="#parcours"><span class="lang-fr">Parcours</span><span class="lang-en">Journey</span></a>
+      <a href="#realisations"><span class="lang-fr">Réalisations</span><span class="lang-en">Projects</span></a>
+      <a href="#recherche"><span class="lang-fr">DBA</span><span class="lang-en">DBA</span></a>
+      <a href="#contact"><span class="lang-fr">Contact</span><span class="lang-en">Contact</span></a>
+      <div class="lang-toggle" id="langToggle">
+        <span class="fr-btn">FR</span><span class="en-btn">EN</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap hero">
+  <div class="manifest">
+    <div class="manifest-strip">
+      <div class="manifest-cell"><b>Shipper</b><em>Tadjou Dine Da Gloria</em></div>
+      <div class="manifest-cell"><b class="lang-fr">Port d'attache</b><b class="lang-en">Home Port</b><em>Lomé, Togo</em></div>
+      <div class="manifest-cell"><b class="lang-fr">Armateur</b><b class="lang-en">Carrier</b><em>MSC &amp; MEDLOG</em></div>
+      <div class="manifest-cell"><b class="lang-fr">Voyage</b><b class="lang-en">Voyage</b><em><span class="lang-fr">Depuis 2004</span><span class="lang-en">Since 2004</span></em></div>
+    </div>
+    <div class="manifest-body">
+      <div class="manifest-main">
+        <div class="stamp"><small class="lang-fr">Recherche en cours</small><small class="lang-en">In progress</small>DBA · <span class="lang-fr">2025 à 2027</span><span class="lang-en">2025 to 2027</span></div>
+        <div class="eyebrow"><span class="eyebrow-num">·</span><span class="lang-fr">Dossier exécutif : digital &amp; data</span><span class="lang-en">Executive dossier: digital &amp; data</span></div>
+        <h1>Tadjou Dine Da Gloria</h1>
+        <p class="role lang-fr">Directeur IT, Logistique et Digitalisation, je transforme les organisations logistiques multinationales par la donnée, la gouvernance IT et l'intelligence artificielle appliquée.</p>
+        <p class="role lang-en">IT, Logistics and Documentation Director, turning multinational logistics organizations into data driven operations through BI, IT governance, and applied AI.</p>
+        <div class="hero-meta">
+          <span><b>20+</b> <span class="lang-fr">ans d'expérience</span><span class="lang-en">years of experience</span></span>
+          <span><b>19 / ~120</b> <span class="lang-fr">collaborateurs (direct / indirect)</span><span class="lang-en">reports (direct / indirect)</span></span>
+          <span><b class="lang-fr">Comité de direction</b><b class="lang-en">Executive Committee</b>, MSC &amp; MEDLOG Togo</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="./CV_Tadjou_Dine_Da_Gloria.docx" download>
+            <span class="lang-fr">Télécharger le CV</span><span class="lang-en">Download CV</span>
+          </a>
+          <a class="btn btn-ghost" href="#parcours"><span class="lang-fr">Voir le parcours</span><span class="lang-en">View journey</span></a>
+          <a class="btn btn-ghost" href="mailto:tadjdeen@gmail.com"><span class="lang-fr">Écrire</span><span class="lang-en">Get in touch</span></a>
+        </div>
+      </div>
+      <div class="portrait-frame">
+        <div class="portrait-box" id="portraitBox">
+          <img src="./photo.jpg" alt="Tadjou Dine Da Gloria" onerror="this.style.display='none'" onload="document.getElementById('portraitBox').classList.add('has-photo')">
+          <div class="portrait-placeholder">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5"/></svg>
+            <span class="lang-fr">PHOTO À AJOUTER</span>
+            <span class="lang-en">PHOTO PENDING</span>
+          </div>
+        </div>
+        <div class="portrait-label lang-fr">Emplacement photo</div>
+        <div class="portrait-label lang-en">Photo placeholder</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section id="profil">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">01</span><span class="lang-fr">Profil exécutif</span><span class="lang-en">Executive profile</span></div>
+      <h2><span class="lang-fr">Vingt ans à l'intersection des opérations et de la donnée</span><span class="lang-en">Twenty years at the intersection of operations and data</span></h2>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-text">
+        <p class="lang-fr">Cadre dirigeant fort de 20 ans d'expérience en shipping et logistique maritime, dont plus de 10 ans au sein du comité de direction de MSC Togo et MEDLOG Togo, l'un des principaux groupes mondiaux de transport conteneurisé. Reconnu pour sa capacité à générer de la croissance, piloter l'excellence opérationnelle et développer des partenariats stratégiques sur le corridor togolais, en lien direct avec Africa Global Logistics (AGL), le Lomé Container Terminal et la Plateforme Industrielle d'Adétikopé.</p>
+        <p class="lang-fr">Capable de diriger des équipes larges et multiculturelles (<strong>19 collaborateurs directs, ~120 indirects</strong>), de gérer des cycles P&amp;L complets, et de conduire des programmes IT, data et de transformation digitale à impact mesurable. Français natif, anglais professionnel, connaissance approfondie de l'environnement des affaires et réglementaire ouest africain.</p>
+        <p class="lang-en">Senior executive with 20 years of leadership in liner shipping and maritime logistics, including 10+ years as a member of the management body at MSC Togo and MEDLOG Togo, one of the world's leading container shipping groups. Recognized for driving revenue growth, operational excellence, and strategic partnerships across the Togo corridor, working directly with Africa Global Logistics (AGL), Lomé Container Terminal, and the Adétikopé Industrial Platform.</p>
+        <p class="lang-en">Proven ability to lead large, multicultural teams (<strong>19 direct / ~120 indirect reports</strong>), manage full P&amp;L cycles, and execute IT, data, and digital transformation programs that deliver measurable efficiency gains. Native French, professional English, deep knowledge of the West African business and regulatory environment.</p>
+      </div>
+      <div class="side-card">
+        <h4 class="lang-fr">En bref</h4>
+        <h4 class="lang-en">At a glance</h4>
+        <div class="side-fact"><span class="lang-fr">Poste actuel</span><span class="lang-en">Current role</span><span>IT, Logistics &amp; Doc. Director</span></div>
+        <div class="side-fact"><span>Organisation</span><span>MSC &amp; MEDLOG Togo</span></div>
+        <div class="side-fact"><span>Localisation</span><span>Lomé, Togo</span></div>
+        <div class="side-fact"><span class="lang-fr">Langues</span><span class="lang-en">Languages</span><span>FR (native) · EN (pro)</span></div>
+        <div class="side-fact"><span>DBA</span><span class="lang-fr">2025 à 2027, en cours</span><span class="lang-en">2025 to 2027, ongoing</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="data">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">02</span><span class="lang-fr">Console data &amp; BI</span><span class="lang-en">Data &amp; BI console</span></div>
+      <h2><span class="lang-fr">La donnée comme outil de décision, pas comme sous-produit</span><span class="lang-en">Data as a decision tool, not a byproduct</span></h2>
+      <p class="lang-fr">Conception de tableaux de bord exécutifs, analyse de coûts de surestarie, et pilotage de projets de gouvernance de la donnée, appuyés par une pratique continue de la data science.</p>
+      <p class="lang-en">Design of executive dashboards, demurrage cost analysis, and data governance projects, backed by an ongoing data science practice.</p>
+    </div>
+    <div class="console">
+      <div class="console-top">
+        <div class="dot-row"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+        <span class="mono">DASHBOARD // TADJOU_DDG // BI_SKILL_MATRIX.v3</span>
+      </div>
+      <div class="gauge-grid">
+        <div class="gauge"><div class="gauge-label"><b>Excel <span class="lang-fr">avancé</span><span class="lang-en">advanced</span></b><span>95%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:95%"></div></div></div>
+        <div class="gauge"><div class="gauge-label"><b>Power BI / DAX</b><span>90%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:90%"></div></div></div>
+        <div class="gauge"><div class="gauge-label"><b>Python</b><span>80%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:80%"></div></div></div>
+        <div class="gauge"><div class="gauge-label"><b>R</b><span>78%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:78%"></div></div></div>
+        <div class="gauge"><div class="gauge-label"><b>Stata / SPSS</b><span>75%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:75%"></div></div></div>
+        <div class="gauge"><div class="gauge-label"><b>PostgreSQL / SQL</b><span>72%</span></div><div class="gauge-track"><div class="gauge-fill" style="width:72%"></div></div></div>
+      </div>
+      <div class="console-note">
+        <span class="lang-fr"><strong>Certifications :</strong> Data Analyst Power BI, Python, PostgreSQL, DAX (Lomé Digital School, 2025) · Data Analyst Excel, Python, Power BI, SPSS (IPM Marrakech, 2026)</span>
+        <span class="lang-en"><strong>Certifications:</strong> Data Analyst, Power BI, Python, PostgreSQL, DAX (Lomé Digital School, 2025) · Data Analyst, Excel, Python, Power BI, SPSS (IPM Marrakech, 2026)</span>
+        <div class="tag-row">
+          <span class="tag">ERP · OneVision / Ibox</span>
+          <span class="tag">Azure Cloud &amp; O365</span>
+          <span class="tag">Banking API Automation</span>
+          <span class="tag"><span class="lang-fr">Digitalisation documentaire</span><span class="lang-en">Documentary digitalization</span></span>
+          <span class="tag"><span class="lang-fr">Gouvernance cyber</span><span class="lang-en">Cybersecurity governance</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="parcours">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">03</span><span class="lang-fr">Feuille de route</span><span class="lang-en">Route map</span></div>
+      <h2><span class="lang-fr">Vingt ans de cap, un même port d'attache</span><span class="lang-en">Twenty years on course, one home port</span></h2>
+    </div>
+    <div class="route">
+      <div class="route-line"></div>
+
+      <div class="stop current">
+        <div class="stop-dot"></div>
+        <div class="stop-head">
+          <div class="stop-titles">
+            <span class="role-title lang-fr">Directeur IT, Logistique &amp; Documentation</span>
+            <span class="role-title lang-en">IT, Logistics &amp; Documentation Director</span>
+            <span class="role-sub lang-fr">Membre du Comité de Direction</span>
+            <span class="role-sub lang-en">Executive Committee Member</span>
+            <span class="co">MSC &amp; MEDLOG Togo</span>
+          </div>
+          <span class="dates"><span class="lang-fr">Depuis janvier 2023</span><span class="lang-en">Since January 2023</span></span>
+        </div>
+        <ul>
+          <li class="lang-fr">En tant que membre du comité de direction, je supervise trois départements stratégiques (IT, Logistique, Documentation), avec 19 collaborateurs directs et une équipe élargie d'environ 120 personnes, alignés sur les objectifs P&amp;L du groupe.</li>
+          <li class="lang-en">As a member of the Executive Committee, I oversee three strategic departments (IT, Logistics, Documentation), with 19 direct reports and roughly 120 indirect staff, aligned with the group's P&amp;L objectives.</li>
+          <li class="lang-fr">Pilotage de la migration ERP complète d'Ibox vers OneVision, garantissant la continuité opérationnelle et la gouvernance des données.</li>
+          <li class="lang-en">Led the end to end ERP migration from Ibox to OneVision, ensuring operational continuity and strengthened data governance.</li>
+          <li class="lang-fr">Digitalisation du paiement des factures avec Orabank : suppression des délais de traitement et réduction des écarts de réconciliation.</li>
+          <li class="lang-en">Spearheaded invoice payment digitalization with Orabank, eliminating processing delays and reducing reconciliation errors.</li>
+          <li class="lang-fr">Conception de tableaux de bord BI exécutifs et analyses mensuelles de coûts de surestarie pour le comité de direction.</li>
+          <li class="lang-en">Designed executive BI dashboards and monthly demurrage cost analyses for board level decision making.</li>
+        </ul>
+        <div class="bl-code">B/L 2023 EXEC · LOMÉ</div>
+      </div>
+
+      <div class="stop side">
+        <div class="stop-dot"></div>
+        <div class="stop-head">
+          <div class="stop-titles">
+            <span class="role-title lang-fr">Gestion du département informatique</span>
+            <span class="role-title lang-en">IT Department Management</span>
+            <span class="role-sub lang-fr">École Supérieure de l'Aéronautique et des Technologies, Togo</span>
+            <span class="role-sub lang-en">Higher School of Aeronautics and Technology, Togo</span>
+            <span class="co">ESAT-TOGO</span>
+          </div>
+          <span class="dates lang-fr">Engagement complémentaire</span>
+          <span class="dates lang-en">Side engagement</span>
+        </div>
+        <ul>
+          <li class="lang-fr">Pilotage du département informatique de l'établissement : infrastructure, postes de travail, connectivité et support technique aux équipes pédagogiques et administratives.</li>
+          <li class="lang-en">Oversee the school's IT department: infrastructure, workstations, connectivity, and technical support for teaching and administrative teams.</li>
+          <li class="lang-fr">Conception et réalisation du site institutionnel de l'école, aujourd'hui en ligne.</li>
+          <li class="lang-en">Designed and built the school's institutional website, now live.</li>
+        </ul>
+        <div class="bl-code">B/L ESAT IT · LOMÉ</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-dot"></div>
+        <div class="stop-head">
+          <div class="stop-titles">
+            <span class="role-title">IT Director</span>
+            <span class="co">MSC Togo</span>
+          </div>
+          <span class="dates"><span class="lang-fr">Janvier 2015 à décembre 2022</span><span class="lang-en">January 2015 to December 2022</span></span>
+        </div>
+        <ul>
+          <li class="lang-fr">Transformation digitale des opérations shipping : e-Bill of Lading, plateforme de pré-validation documentaire, automatisation des API bancaires (Orabank, Ecobank, BIA).</li>
+          <li class="lang-en">Led digital transformation of core shipping operations: e-BL rollout, document pre-validation platform, banking API automation (Orabank, Ecobank, BIA).</li>
+          <li class="lang-fr">Migration complète de l'infrastructure serveur vers Azure Cloud et Office 365.</li>
+          <li class="lang-en">Directed full server infrastructure migration to Azure Cloud and Office 365.</li>
+          <li class="lang-fr">Renforcement de la sécurité du système d'information avec une architecture Fortigate/Aruba.</li>
+          <li class="lang-en">Strengthened information system security with Fortigate/Aruba architecture.</li>
+        </ul>
+        <div class="bl-code">B/L 2015 ITD · LOMÉ</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-dot"></div>
+        <div class="stop-head">
+          <div class="stop-titles">
+            <span class="role-title lang-fr">Responsable / Coordinateur IT</span>
+            <span class="role-title lang-en">IT Manager / IT Coordinator</span>
+            <span class="co">MSC Togo</span>
+          </div>
+          <span class="dates"><span class="lang-fr">Janvier 2006 à décembre 2014</span><span class="lang-en">January 2006 to December 2014</span></span>
+        </div>
+        <ul>
+          <li class="lang-fr">Refonte de l'infrastructure IT (Active Directory, RAID 1 &amp; 5), développement d'applications internes, gestion du réseau, du pare-feu et de la VoIP.</li>
+          <li class="lang-en">Overhauled IT infrastructure (Active Directory, RAID 1 &amp; 5), developed internal business applications, managed network, firewall and VoIP systems.</li>
+        </ul>
+        <div class="bl-code">B/L 2006 ITM · LOMÉ</div>
+      </div>
+
+      <div class="stop">
+        <div class="stop-dot"></div>
+        <div class="stop-head">
+          <div class="stop-titles">
+            <span class="role-title">IT Assistant</span>
+            <span class="co">Shell Togo</span>
+          </div>
+          <span class="dates"><span class="lang-fr">Décembre 2004 à février 2006</span><span class="lang-en">December 2004 to February 2006</span></span>
+        </div>
+        <ul>
+          <li class="lang-fr">Support technique, déploiement wifi, mise en place JDE (AS400), configuration de la messagerie d'entreprise.</li>
+          <li class="lang-en">Delivered technical support, wireless deployment, JDE (AS400) rollout, and corporate messaging configuration.</li>
+        </ul>
+        <div class="bl-code">B/L 2004 ITA · LOMÉ</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="competences">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">04</span><span class="lang-fr">Compétences clés</span><span class="lang-en">Key competencies</span></div>
+      <h2><span class="lang-fr">Trois cales, une même cargaison</span><span class="lang-en">Three holds, one cargo</span></h2>
+    </div>
+    <div class="container-grid">
+      <div class="crate" data-code="P&amp;L">
+        <h3 class="lang-fr">Direction commerciale &amp; P&amp;L</h3>
+        <h3 class="lang-en">Commercial &amp; P&amp;L Leadership</h3>
+        <ul>
+          <li class="lang-fr">Responsabilité P&amp;L complète et pilotage budgétaire</li><li class="lang-en">Full P&amp;L responsibility &amp; budget oversight</li>
+          <li class="lang-fr">Croissance du revenu pays / cluster</li><li class="lang-en">Country / cluster revenue growth</li>
+          <li class="lang-fr">Stratégie commerciale &amp; développement marché</li><li class="lang-en">Commercial strategy &amp; market development</li>
+          <li class="lang-fr">Gestion des comptes clés &amp; parties prenantes</li><li class="lang-en">Key account &amp; stakeholder management</li>
+        </ul>
+      </div>
+      <div class="crate" data-code="OPS">
+        <h3 class="lang-fr">Opérations &amp; Maritime</h3>
+        <h3 class="lang-en">Operations &amp; Maritime</h3>
+        <ul>
+          <li class="lang-fr">Opérations de transport conteneurisé</li><li class="lang-en">Container shipping operations</li>
+          <li class="lang-fr">Gestion port, terminal &amp; logistique</li><li class="lang-en">Port, terminal &amp; logistics management</li>
+          <li class="lang-fr">Optimisation de la chaîne d'approvisionnement</li><li class="lang-en">Supply chain optimization</li>
+          <li class="lang-fr">Gouvernance réglementaire &amp; conformité</li><li class="lang-en">Regulatory &amp; compliance governance</li>
+        </ul>
+      </div>
+      <div class="crate" data-code="TRF">
+        <h3 class="lang-fr">Transformation &amp; Leadership</h3>
+        <h3 class="lang-en">Transformation &amp; Leadership</h3>
+        <ul>
+          <li class="lang-fr">Transformation digitale &amp; gouvernance IT</li><li class="lang-en">Digital transformation &amp; IT governance</li>
+          <li class="lang-fr">ERP, Cloud &amp; intégration de systèmes</li><li class="lang-en">ERP, Cloud &amp; systems integration</li>
+          <li class="lang-fr">Leadership d'équipe exécutive (19 directs / 120+)</li><li class="lang-en">Executive team leadership (19 direct / 120+)</li>
+          <li class="lang-fr">Business intelligence (Excel, Power BI, DAX)</li><li class="lang-en">Business intelligence (Excel, Power BI, DAX)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="realisations">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">05</span><span class="lang-fr">Réalisations</span><span class="lang-en">Projects</span></div>
+      <h2><span class="lang-fr">Des projets livrés, pas seulement des titres</span><span class="lang-en">Projects delivered, not just job titles</span></h2>
+    </div>
+    <div class="project-grid">
+      <div class="project-card featured">
+        <div class="project-top">
+          <h3 class="lang-fr">Site institutionnel ESAT-TOGO</h3>
+          <h3 class="lang-en">ESAT-TOGO institutional website</h3>
+          <span class="project-tag lang-fr">En ligne</span>
+          <span class="project-tag lang-en">Live</span>
+        </div>
+        <p class="lang-fr">Conception, réalisation et gestion du département informatique de l'École Supérieure de l'Aéronautique et des Technologies, Togo (ESAT-TOGO), incluant le site web de l'établissement.</p>
+        <p class="lang-en">Design, build, and IT department management for the École Supérieure de l'Aéronautique et des Technologies, Togo (ESAT-TOGO), including the school's website.</p>
+        <a class="project-link" href="https://esat-togo.tg/" target="_blank" rel="noopener">esat-togo.tg ↗</a>
+      </div>
+      <div class="project-card">
+        <div class="project-top">
+          <h3 class="lang-fr">Migration ERP Ibox vers OneVision</h3>
+          <h3 class="lang-en">ERP migration, Ibox to OneVision</h3>
+          <span class="project-tag">MSC &amp; MEDLOG</span>
+        </div>
+        <p class="lang-fr">Pilotage de bout en bout de la migration ERP, sans rupture de continuité opérationnelle, avec renforcement de la gouvernance des données.</p>
+        <p class="lang-en">End to end migration led without operational disruption, with strengthened data governance.</p>
+      </div>
+      <div class="project-card">
+        <div class="project-top">
+          <h3 class="lang-fr">Digitalisation documentaire et e-BL</h3>
+          <h3 class="lang-en">Documentary digitalization &amp; e-BL</h3>
+          <span class="project-tag">MSC Togo</span>
+        </div>
+        <p class="lang-fr">Déploiement de l'e-Bill of Lading et d'une plateforme de pré-validation documentaire, avec automatisation des API bancaires.</p>
+        <p class="lang-en">Rollout of e-Bill of Lading and a document pre-validation platform, with banking API automation.</p>
+      </div>
+      <div class="project-card">
+        <div class="project-top">
+          <h3 class="lang-fr">Tableaux de bord BI exécutifs</h3>
+          <h3 class="lang-en">Executive BI dashboards</h3>
+          <span class="project-tag">Power BI / DAX</span>
+        </div>
+        <p class="lang-fr">Conception de tableaux de bord et d'analyses mensuelles de coûts de surestarie destinés au comité de direction.</p>
+        <p class="lang-en">Dashboards and monthly demurrage cost analyses built for board level decision making.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="recherche">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">06</span><span class="lang-fr">Recherche doctorale</span><span class="lang-en">Doctoral research</span></div>
+      <h2><span class="lang-fr">Le terrain comme laboratoire</span><span class="lang-en">The field as laboratory</span></h2>
+    </div>
+    <div class="folio">
+      <span class="folio-tag">DBA · 2025 <span class="lang-fr">à</span><span class="lang-en">to</span> 2027</span>
+      <h3 class="lang-fr">La transformation digitale comme levier de performance financière : l'intelligence artificielle au cœur du modèle</h3>
+      <h3 class="lang-en">Digital transformation as a lever of financial performance: AI at the core of the model</h3>
+      <p class="lang-fr">Projet de recherche appliqué, ancré dans le terrain opérationnel de MSC &amp; MEDLOG, articulant transformation digitale, performance financière et intelligence artificielle dans les organisations logistiques multinationales. L'IA y est traitée non comme un thème périphérique, mais comme une composante centrale du modèle étudié.</p>
+      <p class="lang-en">An applied research project grounded in MSC &amp; MEDLOG's operational terrain, linking digital transformation, financial performance, and artificial intelligence in multinational logistics organizations. AI is treated as a core component of the model, not a peripheral theme.</p>
+      <div class="folio-facts">
+        <div class="folio-fact"><b class="lang-fr">Format</b><b class="lang-en">Format</b><span class="lang-fr">2 ans, 4 semestres</span><span class="lang-en">2 years, 4 semesters</span></div>
+        <div class="folio-fact"><b class="lang-fr">Terrain</b><b class="lang-en">Field</b><span>MSC &amp; MEDLOG Togo</span></div>
+        <div class="folio-fact"><b class="lang-fr">Angle</b><b class="lang-en">Angle</b><span class="lang-fr">Digitalisation documentaire &amp; IA</span><span class="lang-en">Documentary digitalization &amp; AI</span></div>
+        <div class="folio-fact"><b class="lang-fr">Profil</b><b class="lang-en">Profile</b><span class="lang-fr">Gestion de projet, finance, data</span><span class="lang-en">Project management, finance, data</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="formation">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">07</span><span class="lang-fr">Formation &amp; certifications</span><span class="lang-en">Education &amp; certifications</span></div>
+      <h2><span class="lang-fr">Une base académique alignée sur la pratique</span><span class="lang-en">An academic foundation aligned with practice</span></h2>
+    </div>
+    <div class="edu-grid">
+      <div>
+        <span class="col-label lang-fr">Diplômes</span><span class="col-label lang-en">Degrees</span>
+        <div class="edu-item"><div class="deg lang-fr">Master en Gestion de projet numérique et Transformation Digitale</div><div class="deg lang-en">Master's, Digital Project Management &amp; Digital Transformation</div><div class="sch">ESCEN University, Lomé, Togo</div><div class="yr"><span class="lang-fr">2021 à 2023</span><span class="lang-en">2021 to 2023</span></div></div>
+        <div class="edu-item"><div class="deg lang-fr">Master 1 en Management des Systèmes d'Information et TIC</div><div class="deg lang-en">Master 1, ICT &amp; Information Systems Management</div><div class="sch">MIT University, Dakar, Sénégal</div><div class="yr">2016</div></div>
+        <div class="edu-item"><div class="deg lang-fr">Licence en Systèmes informatiques et logiciels</div><div class="deg lang-en">Bachelor's, Computer Systems &amp; Software</div><div class="sch">ESIBA IUA, Lomé, Togo</div><div class="yr">2012</div></div>
+        <div class="edu-item"><div class="deg lang-fr">BTS en Management des systèmes d'information</div><div class="deg lang-en">BTS, IT Management</div><div class="sch">École des Cadres, Lomé, Togo</div><div class="yr"><span class="lang-fr">2001 à 2003</span><span class="lang-en">2001 to 2003</span></div></div>
+      </div>
+      <div>
+        <span class="col-label lang-fr">Certifications &amp; développement</span><span class="col-label lang-en">Certifications &amp; development</span>
+        <div class="edu-item"><div class="deg lang-fr">Certification Data Analyst : Power BI, Python, PostgreSQL, DAX</div><div class="deg lang-en">Data Analyst certification: Power BI, Python, PostgreSQL, DAX</div><div class="sch">Lomé Digital School</div><div class="yr">2025</div></div>
+        <div class="edu-item"><div class="deg lang-fr">Certification Data Analyst : Excel, Python, Power BI, SPSS</div><div class="deg lang-en">Data Analyst certification: Excel, Python, Power BI, SPSS</div><div class="sch">IPM Marrakech</div><div class="yr">2026</div></div>
+        <div class="edu-item"><div class="deg">PRINCE2 Foundation</div><div class="sch">PeopleCert</div><div class="yr">2022</div></div>
+        <div class="edu-item"><div class="deg lang-fr">Scrum Master et Business Analysis</div><div class="deg lang-en">Scrum Master &amp; Business Analysis</div><div class="sch">LinkedIn Learning</div><div class="yr">2022</div></div>
+        <div class="edu-item"><div class="deg lang-fr">Leadership agile et collaboratif</div><div class="deg lang-en">Agile &amp; Collaborative Leadership</div><div class="sch">CNAM France</div><div class="yr">2020</div></div>
+        <div class="edu-item"><div class="deg lang-fr">Audit qualité ISO 9001 et 19011</div><div class="deg lang-en">ISO 9001 &amp; 19011 Quality Audit</div><div class="sch">QualiConsult</div><div class="yr">2017</div></div>
+        <div class="edu-item"><div class="deg">Microsoft Copilot AI Conference</div><div class="sch"><span class="lang-fr">Lisbonne, Portugal</span><span class="lang-en">Lisbon, Portugal</span></div><div class="yr">2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow"><span class="eyebrow-num">08</span><span class="lang-fr">Contact</span><span class="lang-en">Contact</span></div>
+      <h2><span class="lang-fr">Ouvert aux opportunités internationales</span><span class="lang-en">Open to international opportunities</span></h2>
+      <p class="lang-fr">Direction générale, transformation digitale et data &amp; BI, en Afrique de l'Ouest ou à l'international.</p>
+      <p class="lang-en">General management, digital transformation, and data &amp; BI leadership, across West Africa or internationally.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-links">
+        <a href="mailto:tadjdeen@gmail.com">tadjdeen@gmail.com</a>
+        <a href="tel:+22890072010">+228 90 07 20 10</a>
+        <a href="tel:+22899993737">+228 99 99 37 37</a>
+        <a href="https://linkedin.com/in/tadjou-dine-da-gloria-b38b8894" target="_blank" rel="noopener">linkedin.com/in/tadjou-dine-da-gloria</a>
+      </div>
+      <a class="btn btn-primary" href="./CV_Tadjou_Dine_Da_Gloria.docx" download>
+        <span class="lang-fr">Télécharger le CV</span><span class="lang-en">Download CV</span>
+      </a>
+    </div>
+    <div class="foot-note">© 2026 Tadjou Dine Da Gloria, Lomé, Togo</div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('langToggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('lang-en');
+    toggle.classList.toggle('en');
+  });
+  const img = document.querySelector('.portrait-box img');
+  if (img && img.complete && img.naturalWidth > 0) {
+    document.getElementById('portraitBox').classList.add('has-photo');
+  }
+</script>
+</body>
+</html>
